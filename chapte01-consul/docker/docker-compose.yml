@@ -1,0 +1,28 @@
+version: '2'
+services:
+  consul:
+    image: consul:latest
+    ports:
+      - "8500:8500"
+    networks:
+      - consul-net
+  service-client:
+    image: xsj/service-client
+    ports:
+      - "9992:9992"
+    networks:
+      - consul-net
+    depends_on:
+      - consul
+  service-hello:
+    image: xsj/service-hello
+    ports:
+      - "9991:9991"
+    networks:
+      - consul-net
+    depends_on:
+      - consul
+
+networks:
+  consul-net:
+    driver: bridge
